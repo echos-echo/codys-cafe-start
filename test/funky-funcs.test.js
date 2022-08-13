@@ -9,7 +9,7 @@ const {
   camelCase
 } = require('../server/funky-funcs')
 
-describe.only('Funky functions', () => {
+describe('Funky functions', () => {
   // intersection
   // Creates an array of unique values that are included in the two given arrays.
   // Based on: https://lodash.com/docs/4.17.5#intersection
