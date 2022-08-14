@@ -20,19 +20,6 @@ router.get('/favoriteCoffee/:favoriteCoffeeName', async (req, res, next) => {
     }
 })
 
-router.get('/:pugId', async (req, res, next) => {
-    try {
-        const pug = await Pug.findByPk(req.params.pugId)
-        if (pug === null) {
-            res.sendStatus(404);
-        } else {
-            res.send(pug);
-        }
-    } catch(err) {
-        next(err);
-    }
-})
-
 router.post('/', async (req, res, next) => {
     try {
         res.status(201).send(await Pug.create(req.body));
@@ -41,28 +28,49 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.put('/:pugId', async (req, res, next) => {
-    try {
-        const pug = await Pug.findByPk(req.params.pugId);
-        if (pug === null) {
-            res.sendStatus(404);
-        } else {
-            pug.set(req.body);
-            await pug.save();
-            await Pug.sync();
-            res.send(pug);
+router.route('/:pugId')
+    .get(async (req, res, next) => {
+        try {
+            const pug = await Pug.findByPk(req.params.pugId)
+            if (pug === null) {
+                res.sendStatus(404);
+            } else {
+                res.send(pug);
+            }
+        } catch(err) {
+            next(err);
         }
-    } catch(err) {
-        next(err);
-    }
-})
-
-router.delete('/', async (req, res, next) => {
-    try {
-
-    } catch(err) {
-        next(err);
-    }
-})
+    })
+    .put(async (req, res, next) => {
+        try {
+            const pug = await Pug.findByPk(req.params.pugId);
+            if (pug === null) {
+                res.sendStatus(404);
+            } else {
+                pug.set(req.body);
+                await pug.save();
+                await Pug.sync();
+                res.send(pug);
+            }
+        } catch(err) {
+            next(err);
+        }
+    })
+    .delete(async (req, res, next) => {
+        try {
+            if (await Pug.findByPk(req.params.pugId) === null) {
+                res.sendStatus(404);
+            } else {
+                await Pug.destroy({
+                    where: {
+                        id: req.params.pugId
+                    }
+                })
+                res.sendStatus(204);
+            }
+        } catch(err) {
+            next(err);
+        }
+    })
 
 module.exports = router

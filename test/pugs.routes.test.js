@@ -154,7 +154,7 @@ describe.only('Routes', () => {
       })
     })
 
-    xdescribe('DELETE /pugs/:pugId', async () => {
+    describe('DELETE /pugs/:pugId', async () => {
       it('removes a pug from the database', async () => {
         await agent
           .delete(`/api/pugs/${doug.id}`) // Oh noes! Bye, Doug!
