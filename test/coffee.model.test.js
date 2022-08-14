@@ -3,7 +3,7 @@
 const {expect} = require('chai')
 const {db, Coffee} = require('../server/models')
 
-describe.only('Coffee model', () => {
+describe('Coffee model', () => {
   beforeEach(() => db.sync({force: true}))
 
   describe('column definitions and validations', () => {

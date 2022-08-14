@@ -16,7 +16,7 @@ Coffee.prototype.getIngredients = function() {
 }
 
 Coffee.findByIngredient = async (ingredient) => {
-  return  await Coffee.findAll({
+  return await Coffee.findAll({
     where: {
       ingredients: { 
         [Sequelize.Op.contains]: [ingredient]}}

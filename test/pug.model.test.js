@@ -3,10 +3,10 @@
 const {expect} = require('chai')
 const {db, Pug, Coffee} = require('../server/models')
 
-xdescribe('Pug model', () => {
+describe.only('Pug model', () => {
   beforeEach(() => db.sync({force: true}))
 
-  xdescribe('column definitions and validations', () => {
+  describe('column definitions and validations', () => {
     it('has a `name`, `age`, and `biography`', async () => {
       const pug = await Pug.create({
         name: 'Cody',
@@ -55,7 +55,6 @@ xdescribe('Pug model', () => {
       })
 
       await pug.setFavoriteCoffee(coffee)
-
       expect(pug.favoriteCoffeeId).to.be.equal(coffee.id)
     })
 
