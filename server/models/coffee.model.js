@@ -25,7 +25,8 @@ Coffee.findByIngredient = async (ingredient) => {
 
 // beforeSave will work for both create and update!!
 Coffee.beforeSave(async (included) => {
-  !included.ingredients.includes('love') ? included.ingredients.push('love') : included
+  if (included.ingredients !== undefined)
+    !included.ingredients.includes('love') ? included.ingredients.push('love') : included
 })
 
 module.exports = Coffee

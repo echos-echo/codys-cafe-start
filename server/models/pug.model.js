@@ -16,6 +16,30 @@ const Pug = db.define('pugs', {
   }
 })
 
+Pug.prototype.isPuppy = function() {
+  return this.age < 1;
+}
 
+Pug.prototype.shortBio = function() {
+  const sliceEnd = this.biography.search(/\W\s/);
+  return sliceEnd >= 0 ? this.biography.slice(0, sliceEnd) : this.biography;
+}
+
+
+Pug.findByCoffee = async coffee => {
+  return await Pug.findAll({
+    include: {
+      model: Coffee,
+      as: 'favoriteCoffee',
+      where: {
+        name: coffee
+      }
+    }
+  })
+}
+
+Pug.beforeSave((pug) => {
+  pug.name = pug.name[0].toUpperCase() + pug.name.slice(1);
+})
 
 module.exports = Pug
