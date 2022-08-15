@@ -46,10 +46,11 @@ const invert = (obj) => {
 // works for any number of whitespace and any number of '_' underscores
 const camelCase = (str) => {
   /* by .split(), each word is its own array element, even empty strings */
-  let camel = str.replaceAll(/[_\s]/ig, ' ').split(' ').reduce((prev, currWord) => currWord.length > 0 ? prev += currWord[0].toUpperCase() + currWord.slice(1) : prev, '')
-  // reduces our array such that if the word is valid (not empty), the first letter is capitalized and concatenated to the total string of words
-  // otherwise, just returns the string of words so far as is
-  return camel[0].toLowerCase() + camel.slice(1);
+  return str.split(/[_\s]+/).reduce((prev, currWord, ind) => currWord.length === 0 ? prev :
+    // if the current word is a valid word...
+    // checks if there is a first word already or not!!!
+    prev === '' ? prev += currWord[0].toLowerCase() + currWord.slice(1) : prev += currWord[0].toUpperCase() + currWord.slice(1)
+    , '')
 }
 
 module.exports = {
