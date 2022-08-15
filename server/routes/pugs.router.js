@@ -4,6 +4,8 @@ const {Pug} = require('../models')
 // Your code here!
 // Remember that these routes are already mounted on
 // /api/pugs!
+
+// gets all pugs in Pug
 router.get('/', async (req, res, next) => {
     try {
         res.send(await Pug.findAll());
@@ -12,6 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+// gets all pugs in Pug that have the given favorite coffee
 router.get('/favoriteCoffee/:favoriteCoffeeName', async (req, res, next) => {
     try {
         res.send(await Pug.findByCoffee(req.params.favoriteCoffeeName));
@@ -20,6 +23,7 @@ router.get('/favoriteCoffee/:favoriteCoffeeName', async (req, res, next) => {
     }
 })
 
+// adds a new pug to Pug
 router.post('/', async (req, res, next) => {
     try {
         res.status(201).send(await Pug.create(req.body));
@@ -28,9 +32,11 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+// handles all routes (get, put, delete) for '/pugs/:pugId'
 router.route('/:pugId')
     .get(async (req, res, next) => {
         try {
+            // checks to see if the pug exists
             const pug = await Pug.findByPk(req.params.pugId)
             if (pug === null) {
                 res.sendStatus(404);
@@ -43,6 +49,7 @@ router.route('/:pugId')
     })
     .put(async (req, res, next) => {
         try {
+            // check to see if the pug exists
             const pug = await Pug.findByPk(req.params.pugId);
             if (pug === null) {
                 res.sendStatus(404);
@@ -58,9 +65,11 @@ router.route('/:pugId')
     })
     .delete(async (req, res, next) => {
         try {
+            // will only destroy the pug if it exists
             if (await Pug.findByPk(req.params.pugId) === null) {
                 res.sendStatus(404);
             } else {
+                // goodbye, pug...
                 await Pug.destroy({
                     where: {
                         id: req.params.pugId

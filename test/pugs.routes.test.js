@@ -11,7 +11,7 @@ const {Pug} = require('../server/models')
 // NOTE: there is some dependency on your Pug and Coffee model
 // for the Routes test to work. At minimum, you will need to define
 // their schema and associations
-describe.only('Routes', () => {
+describe('Routes', () => {
   // Make sure to check out test/test-seed.js
   // This file drops the database and re-creates the dummy data
   // used by the tests.

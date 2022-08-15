@@ -4,14 +4,27 @@ const {Coffee} = require('../models')
 // Your code here!
 // Remember that these routes are already mounted on
 // /api/coffee!
-router.get('/', async (req, res, next) => {
-    try {
-        res.send(await Coffee.findAll())
-    } catch(err) {
-        next(err);
-    }
-})
 
+// handles all '/coffee' routes (get, post)
+router.route('/')
+    // gets all coffees
+    .get(async (req, res, next) => {
+        try {
+            res.send(await Coffee.findAll())
+        } catch(err) {
+            next(err);
+        }
+    })
+    // creates a new coffee item
+    .post(async (req, res, next) => {
+        try {
+            res.status(201).send(await Coffee.create(req.body));
+        } catch(err) {
+            next(err);
+        }
+    })
+
+// gets all coffee drinks that use the given ingredient
 router.get('/ingredients/:ingredientName', async (req, res, next) => {
     try {
         res.send(await Coffee.findByIngredient(req.params.ingredientName));
@@ -20,6 +33,7 @@ router.get('/ingredients/:ingredientName', async (req, res, next) => {
     }
 })
 
+// gets the coffee of the given id
 router.get('/:coffeeId', async (req, res, next) => {
     try {
         const coffee = await Coffee.findByPk(req.params.coffeeId)
@@ -32,16 +46,5 @@ router.get('/:coffeeId', async (req, res, next) => {
         next(err);
     }
 })
-
-router.post('/', async (req, res, next) => {
-    try {
-        res.status(201).send(await Coffee.create(req.body));
-    } catch(err) {
-        next(err);
-    }
-})
-
-
-
 
 module.exports = router
